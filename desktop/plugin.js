@@ -2396,19 +2396,20 @@ function Page() {
     return jsx('div', { style: { padding: 24 }, children: jsx(EmptyState, { title: t('offline'), description: t('offlineHint') }) })
   }
   return jsxs('div', {
-    style: { display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 },
+    style: { display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0, minWidth: 0, overflow: 'hidden' },
     children: [
       jsxs('div', {
-        style: { display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderBottom: '1px solid var(--ui-stroke-secondary)' },
+        // Wraps instead of overflowing: in a narrow pane the transport drops to its own line.
+        style: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '4px 8px', padding: '6px 10px', minWidth: 0, borderBottom: '1px solid var(--ui-stroke-secondary)' },
         children: [
           jsx(StatusDot, { tone: np.connected ? 'good' : 'muted' }),
           jsx('span', {
-            style: { flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: 'var(--ui-text-secondary)' },
+            style: { flex: '1 1 100px', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: 'var(--ui-text-secondary)' },
             children: label(np) || t('nothing')
           }),
           np.online ? jsx(LikeButton, { np }) : null,
           np.online ? jsx(SleepSelect, { np }) : null,
-          jsx('div', { style: { width: 260 }, children: jsx(Transport, { np }) })
+          jsx('div', { style: { flex: '0 1 260px', minWidth: 0 }, children: jsx(Transport, { np }) })
         ]
       }),
       jsx('div', { ref: hostRef, style: { flex: 1, minHeight: 0, position: 'relative' } })
